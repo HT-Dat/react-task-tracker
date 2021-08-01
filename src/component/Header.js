@@ -9,7 +9,7 @@ const Header = ({title}) => {
             {/* <h1 style={{color:'red', backgroundColor: 'black'}}>{title}</h1> */}
             {/* <h1 style={headingStyle}>{title}</h1> */}
             <h1>{title}</h1>
-            <Button color='green' text='Hello' onClick={onClick}/>
+            <Button color='green' text='Add' onClick={onClick}/>
         </header>
     )
 }
