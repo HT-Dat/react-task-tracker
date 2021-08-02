@@ -1,14 +1,29 @@
 import Header from "./component/Header";
 import Tasks from "./component/Tasks";
 import AddTask from "./component/AddTask";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
   const [showAddTask, setShowAddTask] = useState(false);
   const [tasks, setTask] = useState([]);
+  useEffect(() => {
+    const getTasks = async () => {
+      const tasksFromServer = await fetchTask();
+      setTask(tasksFromServer);
+    };
+    getTasks();
+  }, []);
+  // Fetch Tasks
+  const fetchTask = async () => {
+    const res = await fetch("http://localhost:5000/tasks");
+    const data = await res.json();
+    return data;
+  };
+
   const deleteTask = (id) => {
     setTask(tasks.filter((tasks) => tasks.id !== id));
   };
+
   const toggleReminder = (id) => {
     setTask(
       tasks.map((task) =>
@@ -16,6 +31,7 @@ function App() {
       )
     );
   };
+
   const addTask = (task) => {
     const id = Math.floor(Math.random() * 10000 + 1);
     const newTask = { id, ...task };
@@ -23,7 +39,10 @@ function App() {
   };
   return (
     <div className="container">
-      <Header onAdd={()=>setShowAddTask(!showAddTask)} showAddTask={showAddTask}/>
+      <Header
+        onAdd={() => setShowAddTask(!showAddTask)}
+        showAddTask={showAddTask}
+      />
       {showAddTask ? <AddTask onAdd={addTask} /> : ""}
       {tasks.length > 0 ? (
         <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} />
