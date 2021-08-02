@@ -1,6 +1,6 @@
 # Task Tracker App using ReactJS
 
-This project I took from [React JS Crash Course 2021](https://www.youtube.com/watch?v=w7ejDZ8SWv8). It includes the react ui as well as JSON-server for our mock backend
+This project I took from [React JS Crash Course 2021](https://www.youtube.com/watch?v=w7ejDZ8SWv8). It includes the react ui as well as JSON-server for mock backend
 
 ## Usage
 
