@@ -1,8 +1,10 @@
 import Header from "./component/Header";
 import Tasks from "./component/Tasks";
 import AddTask from "./component/AddTask";
+import Footer from "./component/Footer";
 import { useState, useEffect } from "react";
-
+import About from "./component/About";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 function App() {
   const [showAddTask, setShowAddTask] = useState(false);
   const [tasks, setTasks] = useState([]);
@@ -36,9 +38,9 @@ function App() {
     const res = await fetch(`http://localhost:5000/tasks/${id}`, {
       method: "PUT",
       headers: {
-        'Content-type': 'application/json'
+        "Content-type": "application/json",
       },
-      body: JSON.stringify(updTask)
+      body: JSON.stringify(updTask),
     });
     const data = await res.json();
     setTasks(
@@ -64,18 +66,35 @@ function App() {
     // setTask([...tasks, newTask]);
   };
   return (
-    <div className="container">
-      <Header
-        onAdd={() => setShowAddTask(!showAddTask)}
-        showAddTask={showAddTask}
-      />
-      {showAddTask ? <AddTask onAdd={addTask} /> : ""}
-      {tasks.length > 0 ? (
-        <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} />
-      ) : (
-        "No task to show"
-      )}
-    </div>
+    <Router>
+      <div className="container">
+        <Header
+          onAdd={() => setShowAddTask(!showAddTask)}
+          showAddTask={showAddTask}
+        />
+
+        <Route
+          path="/"
+          exact
+          render={(props) => (
+            <>
+              {showAddTask ? <AddTask onAdd={addTask} /> : ""}
+              {tasks.length > 0 ? (
+                <Tasks
+                  tasks={tasks}
+                  onDelete={deleteTask}
+                  onToggle={toggleReminder}
+                />
+              ) : (
+                "No task to show"
+              )}
+            </>
+          )}
+        />
+        <Route path="/about" component={About} />
+        <Footer />
+      </div>
+    </Router>
   );
 }
 
